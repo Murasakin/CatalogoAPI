@@ -1,11 +1,12 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace APICatalogo.Models;
 
-//instead of data anotations, fluent API can be used to avoid pollution in our
-//model/entity class
+// instead of data anotations, fluent API can be used to avoid pollution in our
+// model/entity class
 
 public class Product {
     [Key]
@@ -24,7 +25,7 @@ public class Product {
     public string? ImageUrl { get; set; }
     public float Stock { get; set; }
     public DateTime RegistrationDate { get; set; }
-
     public int CategoryId { get; set; }
+    [JsonIgnore]
     public Category? Category { get; set; }
 }
