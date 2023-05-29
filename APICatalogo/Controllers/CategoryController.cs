@@ -24,12 +24,15 @@ namespace APICatalogo.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Category>> Get()
         {
-            var category = _context.Categories.AsNoTracking().ToList();
-            if (category is null)
+            try
             {
-                return NotFound("Categories not found!");
+                return _context.Categories.AsNoTracking().ToList();
             }
-            return category;
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "It was not possibile to process the request!");
+            }
         }
 
         [HttpGet("{id:int}", Name = "GetCategory")]
@@ -54,7 +57,7 @@ namespace APICatalogo.Controllers
         {
             if (category is null)
             {
-                return BadRequest();
+                return BadRequest("Invalid request!");
             }
             _context.Categories.Add(category);
             _context.SaveChanges();
